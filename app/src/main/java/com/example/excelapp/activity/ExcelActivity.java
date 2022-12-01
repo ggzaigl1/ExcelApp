@@ -196,7 +196,7 @@ public class ExcelActivity extends BaseActivity<ActivityExcelBinding> {
                     List<ContextBean> m = entry.getValue();
                     Collections.shuffle(m);
                     List<ContextBean> list1;
-                    double ceil = Math.round(m.size() * percentage);
+                    double ceil = Math.ceil(m.size() * percentage);
                     size = (int) ceil;
                     if (m.size() < size) {
                         list1 = m.subList(0, m.size());
@@ -224,7 +224,6 @@ public class ExcelActivity extends BaseActivity<ActivityExcelBinding> {
         List<ContextBean> list = new ArrayList<>();
 //        File file = new File(filePath, "test2.xls");
         File file = new File(filePath);
-        Log.e("tag", "file=" + file.getAbsolutePath());
         try {
             InputStream is = new FileInputStream(file);
             Workbook book = Workbook.getWorkbook(is);
