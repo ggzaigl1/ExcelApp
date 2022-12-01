@@ -1,4 +1,4 @@
-package com.cjzq.family.bean;
+package com.cjzq.family.domainService.appModel.bean;
 
 public class LanguageBean {
     public String name;

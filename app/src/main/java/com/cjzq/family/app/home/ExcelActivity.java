@@ -1,8 +1,6 @@
-package com.cjzq.family.activity;
+package com.cjzq.family.app.home;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -13,22 +11,17 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 
 import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.cjzq.family.bean.ContextBean;
-import com.cjzq.family.common.LoadingDialog;
-import com.cjzq.family.R;
+import com.cjzq.family.base.BaseActivity;
+import com.cjzq.family.base.Const;
+import com.cjzq.family.common.dialog.LoadingDialog;
+import com.cjzq.family.common.utils.ExcelUtil;
+import com.cjzq.family.common.utils.FileUtil;
+import com.cjzq.family.common.utils.KeyboardUtils;
 import com.cjzq.family.databinding.ActivityExcelBinding;
-import com.cjzq.family.utils.ExcelUtil;
-import com.cjzq.family.utils.ExcelUtils;
-import com.cjzq.family.utils.FileUtil;
-import com.cjzq.family.utils.KeyboardUtils;
+import com.cjzq.family.domainService.appModel.bean.ContextBean;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,22 +36,19 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import androidx.annotation.RequiresApi;
 import jxl.Sheet;
 import jxl.Workbook;
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.OnNeverAskAgain;
-import permissions.dispatcher.OnPermissionDenied;
-import permissions.dispatcher.OnShowRationale;
-import permissions.dispatcher.PermissionRequest;
-import permissions.dispatcher.RuntimePermissions;
 
-@RuntimePermissions
 public class ExcelActivity extends BaseActivity<ActivityExcelBinding> {
     private int size = 0;
     private String fileUrl;
-    private final String Unit = "%";
-    private static final int REQUEST_FILE_CODE = 200;
     private static final String TAG = "ExcelActivity";
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, ExcelActivity.class);
+        context.startActivity(starter);
+    }
 
     @Override
     protected ActivityExcelBinding getViewBinding() {
@@ -99,21 +89,21 @@ public class ExcelActivity extends BaseActivity<ActivityExcelBinding> {
             public void afterTextChanged(Editable editable) {
                 if (editable != null) {
                     binding.editNum.removeTextChangedListener(this);//移除输入监听，避免陷入死循环
-                    if (editable.toString().trim().equals(Unit)) {
+                    if (editable.toString().trim().equals(Const.Unit)) {
                         //当此时内容是单位的时候，将edittext置为空
                         binding.editNum.setText("");
                     } else {
                         String lenStr = editable.toString();
                         //辅助判断单位存不存在/存在的位置
-                        int i = lenStr.length() - Unit.length();
-                        if (i > 0 && lenStr.endsWith(Unit)) {
+                        int i = lenStr.length() - Const.Unit.length();
+                        if (i > 0 && lenStr.endsWith(Const.Unit)) {
                             //单位就在最后不处理
                         } else {
                             //当用户自己将光标置到单位后面时，输入的内容就会在单位后面，此时将前面的单位去掉，将单位放到最后
-                            lenStr = lenStr.replace(Unit, "") + Unit;
+                            lenStr = lenStr.replace(Const.Unit, "") + Const.Unit;
                             binding.editNum.setText(lenStr);
                             //这里得到光标应该在的位置（单位前面）
-                            int index = lenStr.length() - Unit.length();
+                            int index = lenStr.length() - Const.Unit.length();
                             //设置光标的位置
                             Selection.setSelection(binding.editNum.getText(), Math.max(index, 0));
                         }
@@ -127,7 +117,7 @@ public class ExcelActivity extends BaseActivity<ActivityExcelBinding> {
 
     @Override
     protected void initView() {
-        ExcelActivityPermissionsDispatcher.initAfterPermissionCheckedWithPermissionCheck(this);
+
     }
 
     /**
@@ -144,18 +134,18 @@ public class ExcelActivity extends BaseActivity<ActivityExcelBinding> {
             mimeTypesStr.append(mimeType).append("|");
         }
         intent.setType(mimeTypesStr.substring(0, mimeTypesStr.length() - 1));
-        startActivityForResult(Intent.createChooser(intent, "选择文件"), REQUEST_FILE_CODE);
+        startActivityForResult(Intent.createChooser(intent, "选择文件"), Const.REQUEST_FILE_CODE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.e("TAG", "onActivityResult: " + requestCode + ":requestCode    " + resultCode + ":resultCode");
-        if (requestCode == REQUEST_FILE_CODE && resultCode == RESULT_OK) {
+        if (requestCode == Const.REQUEST_FILE_CODE && resultCode == RESULT_OK) {
             Uri uri = data.getData();
             fileUrl = FileUtil.getPath(this, uri);
             if (!TextUtils.isEmpty(fileUrl)) {
-                if (ExcelUtils.checkIfExcelFile(new File(fileUrl))) {
+                if (ExcelUtil.checkIfExcelFile(new File(fileUrl))) {
                     setDate(fileUrl);
                     Log.e("TAG", "onActivityResult: " + fileUrl);
                 } else {
@@ -320,46 +310,6 @@ public class ExcelActivity extends BaseActivity<ActivityExcelBinding> {
         }).start();
     }
 
-
-    @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    public void initAfterPermissionChecked() {
-    }
-
-    @OnShowRationale({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    //给用户解释要请求什么权限，为什么需要此权限
-    public void showRationale(final PermissionRequest request) {
-        new AlertDialog.Builder(ExcelActivity.this, R.style.Theme_AppCompat_Light_Dialog_Alert)
-                .setMessage("权限")
-                .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        request.proceed();//继续执行请求
-                    }
-                }).setNegativeButton(getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                request.cancel();//取消执行请求
-            }
-        }).show();
-    }
-
-    @OnNeverAskAgain({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    public void multiNeverAsk() {
-        Toast.makeText(this, "权限失败", Toast.LENGTH_SHORT).show();
-        initAfterPermissionChecked();
-    }
-
-    //一旦用户拒绝了
-    @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    public void multiDenied() {
-        Toast.makeText(this, "权限拒绝", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        ExcelActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
-    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {

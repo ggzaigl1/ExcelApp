@@ -1,4 +1,4 @@
-package com.cjzq.family.utils;
+package com.cjzq.family.common.utils;
 
 import android.content.ContentUris;
 import android.content.Context;

@@ -1,12 +1,12 @@
-package com.cjzq.family.utils;
+package com.cjzq.family.common.utils;
 
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 import android.util.Xml;
 
-import com.cjzq.family.bean.ContextBean;
-import com.cjzq.family.bean.LanguageBean;
+import com.cjzq.family.domainService.appModel.bean.ContextBean;
+import com.cjzq.family.domainService.appModel.bean.LanguageBean;
 
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -129,27 +129,6 @@ public class ExcelUtils {
         return value;
     }
 
-    /**
-     * 根据类型后缀名简单判断是否Excel文件
-     *
-     * @param file 文件
-     * @return 是否Excel文件
-     */
-    public static boolean checkIfExcelFile(File file) {
-        if (file == null) {
-            return false;
-        }
-        String name = file.getName();
-        //”.“ 需要转义字符
-        String[] list = name.split("\\.");
-        //划分后的小于2个元素说明不可获取类型名
-        if (list.length < 2) {
-            return false;
-        }
-        String typeName = list[list.length - 1];
-        //满足xls或者xlsx才可以
-        return "xls".equals(typeName) || "xlsx".equals(typeName);
-    }
 
 
     /**
@@ -301,160 +280,5 @@ public class ExcelUtils {
             e.printStackTrace();
         }
         return languageBeans;
-    }
-
-    /**
-     * 单元格的格式设置 字体大小 颜色 对齐方式、背景颜色等...
-     */
-    private static void format() {
-        try {
-            arial14font = new WritableFont(WritableFont.ARIAL, 14, WritableFont.BOLD);
-            arial14font.setColour(Colour.LIGHT_BLUE);
-            arial14format = new WritableCellFormat(arial14font);
-            arial14format.setAlignment(jxl.format.Alignment.CENTRE);
-            arial14format.setBorder(jxl.format.Border.ALL, jxl.format.BorderLineStyle.THIN);
-            arial14format.setBackground(Colour.VERY_LIGHT_YELLOW);
-
-            arial10font = new WritableFont(WritableFont.ARIAL, 10, WritableFont.BOLD);
-            arial10format = new WritableCellFormat(arial10font);
-            arial10format.setAlignment(jxl.format.Alignment.CENTRE);
-            arial10format.setBorder(jxl.format.Border.ALL, jxl.format.BorderLineStyle.THIN);
-            arial10format.setBackground(Colour.GRAY_25);
-
-            arial12font = new WritableFont(WritableFont.ARIAL, 10);
-            arial12format = new WritableCellFormat(arial12font);
-            //对齐格式
-            arial10format.setAlignment(jxl.format.Alignment.CENTRE);
-            //设置边框
-            arial12format.setBorder(jxl.format.Border.ALL, jxl.format.BorderLineStyle.THIN);
-
-        } catch (WriteException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    /**
-     * 初始化Excel表格
-     *
-     * @param filePath  存放excel文件的路径（path/demo.xls）
-     * @param sheetName Excel表格的表名
-     * @param colName   excel中包含的列名（可以有多个）
-     */
-    public static void initExcel(String filePath, String sheetName, String[] colName) {
-        format();
-        WritableWorkbook workbook = null;
-        try {
-            File file = new File(filePath);
-            if (!file.exists()) {
-                file.createNewFile();
-            } else {
-                return;
-            }
-            workbook = jxl.Workbook.createWorkbook(file);
-            //设置表格的名字
-            WritableSheet sheet = workbook.createSheet(sheetName, 0);
-            //创建标题栏
-            sheet.addCell((WritableCell) new Label(0, 0, filePath, arial14format));
-            for (int col = 0; col < colName.length; col++) {
-                sheet.addCell(new Label(col, 0, colName[col], arial10format));
-            }
-            //设置行高
-            sheet.setRowView(0, 340);
-            workbook.write();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (workbook != null) {
-                try {
-                    workbook.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    /**
-     * 将制定类型的List写入Excel中
-     *
-     * @param <T>
-     * @param objList  待写入的list  自定义的实体类MyDataDTO
-     * @param fileName
-     * @param mContext
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> void writeObjListToExcel(List<ContextBean> objList, String fileName, Runnable mContext) {
-        if (objList != null && objList.size() > 0) {
-            WritableWorkbook writebook = null;
-            InputStream in = null;
-            try {
-                WorkbookSettings setEncode = new WorkbookSettings();
-                setEncode.setEncoding(UTF8_ENCODING);
-
-                in = new FileInputStream(new File(fileName));
-                jxl.Workbook workbook = jxl.Workbook.getWorkbook(in);
-                writebook = jxl.Workbook.createWorkbook(new File(fileName), workbook);
-                WritableSheet sheet = writebook.getSheet(0);
-
-                for (int j = 0; j < objList.size(); j++) {
-                    ContextBean bean = (ContextBean) objList.get(j);
-                    List<String> list = new ArrayList<>();
-                    // MyDataDTO 自定义实体类
-                    list.add(bean.getCustomer());
-                    list.add(bean.getBusinessDepartment());
-                    list.add(String.valueOf(bean.getId()));
-                    list.add(bean.getCustomerNum());
-                    list.add(bean.getCustomerName());
-                    list.add(bean.getServiceName());
-                    list.add(bean.getReturnTaskName());
-                    list.add(bean.getAllocationMethod());
-                    list.add(bean.getTaskStatus());
-                    list.add(bean.getReturnChannel());
-                    list.add(bean.getWayVisit());
-                    list.add(bean.getRevisitDays());
-                    list.add(bean.getRevisitNum());
-                    list.add(bean.getTaskRemarks());
-                    list.add(bean.getRevisitDetails());
-                    list.add(bean.getIsPrize());
-
-                    for (int i = 0; i < list.size(); i++) {
-                        sheet.addCell(new Label(i, j + 1, list.get(i), arial12format));
-                        if (list.get(i).length() <= 4) {
-                            //设置列宽
-                            sheet.setColumnView(i, list.get(i).length() + 8);
-                        } else {
-                            //设置列宽
-                            sheet.setColumnView(i, list.get(i).length() + 5);
-                        }
-                    }
-                    //设置行高
-                    sheet.setRowView(j + 1, 350);
-                }
-
-                writebook.write();
-                workbook.close();
-                Log.e("ExcelUtil", "导出Excel成功");
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (writebook != null) {
-                    try {
-                        writebook.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-                if (in != null) {
-                    try {
-                        in.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-        }
     }
 }

@@ -1,4 +1,4 @@
-package com.cjzq.family.utils;
+package com.cjzq.family.common.utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,8 +10,8 @@ import android.widget.Toast;
 import androidx.core.content.FileProvider;
 
 import com.cjzq.family.BuildConfig;
-import com.cjzq.family.bean.ContextBean;
-import com.cjzq.family.common.LoadingDialog;
+import com.cjzq.family.domainService.appModel.bean.ContextBean;
+import com.cjzq.family.common.dialog.LoadingDialog;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -212,7 +212,6 @@ public class ExcelUtil {
                     }
                 }
             }
-
         }
     }
 
@@ -240,5 +239,28 @@ public class ExcelUtil {
         } else {
             Toast.makeText(context, "分享文件不存在", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    /**
+     * 根据类型后缀名简单判断是否Excel文件
+     *
+     * @param file 文件
+     * @return 是否Excel文件
+     */
+    public static boolean checkIfExcelFile(File file) {
+        if (file == null) {
+            return false;
+        }
+        String name = file.getName();
+        //”.“ 需要转义字符
+        String[] list = name.split("\\.");
+        //划分后的小于2个元素说明不可获取类型名
+        if (list.length < 2) {
+            return false;
+        }
+        String typeName = list[list.length - 1];
+        //满足xls或者xlsx才可以
+        return "xls".equals(typeName);
+//        return "xls".equals(typeName) || "xlsx".equals(typeName);
     }
 }

@@ -1,4 +1,4 @@
-package com.cjzq.family.bean;
+package com.cjzq.family.domainService.appModel.bean;
 
 import java.io.Serializable;
 import java.util.Objects;

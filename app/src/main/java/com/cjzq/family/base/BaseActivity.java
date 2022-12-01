@@ -1,4 +1,4 @@
-package com.cjzq.family.activity;
+package com.cjzq.family.base;
 
 import android.content.Context;
 import android.content.DialogInterface;

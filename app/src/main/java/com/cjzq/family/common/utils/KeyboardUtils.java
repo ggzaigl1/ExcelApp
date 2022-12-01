@@ -1,4 +1,4 @@
-package com.cjzq.family.utils;
+package com.cjzq.family.common.utils;
 
 import android.app.Activity;
 import android.content.Context;
