@@ -1,4 +1,4 @@
-package com.example.excelapp.common;
+package com.cjzq.family.common;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.excelapp.R;
+import com.cjzq.family.R;
 
 public class LoadingDialog {
 

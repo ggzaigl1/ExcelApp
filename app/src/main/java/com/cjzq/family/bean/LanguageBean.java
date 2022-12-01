@@ -1,4 +1,4 @@
-package com.example.excelapp.bean;
+package com.cjzq.family.bean;
 
 public class LanguageBean {
     public String name;

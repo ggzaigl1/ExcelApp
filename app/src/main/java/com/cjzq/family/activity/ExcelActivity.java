@@ -1,4 +1,4 @@
-package com.example.excelapp.activity;
+package com.cjzq.family.activity;
 
 import android.Manifest;
 import android.content.Context;
@@ -21,14 +21,14 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.example.excelapp.bean.ContextBean;
-import com.example.excelapp.common.LoadingDialog;
-import com.example.excelapp.R;
-import com.example.excelapp.databinding.ActivityExcelBinding;
-import com.example.excelapp.utils.ExcelUtil;
-import com.example.excelapp.utils.ExcelUtils;
-import com.example.excelapp.utils.FileUtil;
-import com.example.excelapp.utils.KeyboardUtils;
+import com.cjzq.family.bean.ContextBean;
+import com.cjzq.family.common.LoadingDialog;
+import com.cjzq.family.R;
+import com.cjzq.family.databinding.ActivityExcelBinding;
+import com.cjzq.family.utils.ExcelUtil;
+import com.cjzq.family.utils.ExcelUtils;
+import com.cjzq.family.utils.FileUtil;
+import com.cjzq.family.utils.KeyboardUtils;
 
 import java.io.File;
 import java.io.FileInputStream;

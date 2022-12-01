@@ -1,4 +1,4 @@
-package com.example.excelapp.utils;
+package com.cjzq.family.utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,9 +9,9 @@ import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 
-import com.example.excelapp.BuildConfig;
-import com.example.excelapp.bean.ContextBean;
-import com.example.excelapp.common.LoadingDialog;
+import com.cjzq.family.BuildConfig;
+import com.cjzq.family.bean.ContextBean;
+import com.cjzq.family.common.LoadingDialog;
 
 import java.io.File;
 import java.io.FileInputStream;

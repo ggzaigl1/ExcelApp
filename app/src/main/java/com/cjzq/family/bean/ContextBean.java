@@ -1,4 +1,4 @@
-package com.example.excelapp.bean;
+package com.cjzq.family.bean;
 
 import java.io.Serializable;
 import java.util.Objects;

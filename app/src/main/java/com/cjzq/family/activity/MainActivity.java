@@ -1,4 +1,4 @@
-package com.example.excelapp.activity;
+package com.cjzq.family.activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.excelapp.R;
+import com.cjzq.family.R;
 
 import java.io.File;
 import java.io.FileInputStream;
