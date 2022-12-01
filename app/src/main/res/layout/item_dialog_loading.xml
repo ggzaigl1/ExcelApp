@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/insv2_shape_zero_blockr"
+    android:gravity="center"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="6dp"
+        android:paddingEnd="18dp"
+        android:paddingStart="18dp"
+        android:paddingTop="6dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgLoadingView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/insv2_ic_loading"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtLoadingView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="加载中"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="#ffffff"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

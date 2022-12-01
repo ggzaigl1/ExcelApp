@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-path name="files_root" path="MyApplication/"/>
+    <cache-path name="cache-path" path="."/>
+    <external-path name="my_external_path" path="tempAttachment/"/>
+    <external-path name="external_storage_root" path="."/>
+</paths>
