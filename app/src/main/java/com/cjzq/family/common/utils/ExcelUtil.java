@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import jxl.Workbook;
 import jxl.WorkbookSettings;
@@ -41,7 +42,6 @@ public class ExcelUtil {
     private static WritableCellFormat arial12format = null;
     private final static String UTF8_ENCODING = "UTF-8";
     private OnSendListener listener;
-
     public interface OnSendListener {
         void onSendSuccess(String FilePath);
 
@@ -160,9 +160,9 @@ public class ExcelUtil {
                     list.add(bean.getRevisitDays());
                     list.add(bean.getRevisitNum());
                     list.add(bean.getRevisitNameNum());
-                    list.add(bean.getTaskRemarks());
                     list.add(bean.getRevisitDetails());
                     list.add(bean.getIsPrize());
+                    list.add(bean.getBonus());
 
                     for (int i = 0; i < list.size(); i++) {
                         sheet.addCell(new Label(i, j + 1, list.get(i), arial12format));

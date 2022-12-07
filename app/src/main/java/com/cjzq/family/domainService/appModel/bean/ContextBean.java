@@ -19,7 +19,7 @@ public class ContextBean implements Serializable {
     public String RevisitDays;
     public String RevisitNum;
     public String RevisitNameNum;
-    public String TaskRemarks;
+    public String Bonus;
     public String RevisitDetails;
     public String isPrize;
 
@@ -135,12 +135,12 @@ public class ContextBean implements Serializable {
         RevisitNameNum = revisitNameNum;
     }
 
-    public String getTaskRemarks() {
-        return TaskRemarks;
+    public String getBonus() {
+        return Bonus;
     }
 
-    public void setTaskRemarks(String taskRemarks) {
-        TaskRemarks = taskRemarks;
+    public void setBonus(String bonus) {
+        Bonus = bonus;
     }
 
     public String getRevisitDetails() {
@@ -178,14 +178,14 @@ public class ContextBean implements Serializable {
                 Objects.equals(RevisitDays, that.RevisitDays) &&
                 Objects.equals(RevisitNum, that.RevisitNum) &&
                 Objects.equals(RevisitNameNum, that.RevisitNameNum) &&
-                Objects.equals(TaskRemarks, that.TaskRemarks) &&
+                Objects.equals(Bonus, that.Bonus) &&
                 Objects.equals(RevisitDetails, that.RevisitDetails) &&
                 Objects.equals(isPrize, that.isPrize);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(customer, BusinessDepartment, Id, customerNum, customerName, serviceName, ReturnTaskName, AllocationMethod, TaskStatus, ReturnChannel, WayVisit, RevisitDays, RevisitNum, RevisitNameNum, TaskRemarks, RevisitDetails, isPrize);
+        return Objects.hash(customer, BusinessDepartment, Id, customerNum, customerName, serviceName, ReturnTaskName, AllocationMethod, TaskStatus, ReturnChannel, WayVisit, RevisitDays, RevisitNum, RevisitNameNum, RevisitDetails, isPrize, Bonus);
     }
 
     @Override
@@ -205,9 +205,9 @@ public class ContextBean implements Serializable {
                 ", RevisitDays='" + RevisitDays + '\'' +
                 ", RevisitNum='" + RevisitNum + '\'' +
                 ", RevisitNameNum='" + RevisitNameNum + '\'' +
-                ", TaskRemarks='" + TaskRemarks + '\'' +
                 ", RevisitDetails='" + RevisitDetails + '\'' +
                 ", isPrize='" + isPrize + '\'' +
+                ", Bonus='" + Bonus + '\'' +
                 '}';
     }
 }

@@ -28,12 +28,14 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import androidx.annotation.RequiresApi;
@@ -44,6 +46,10 @@ public class ExcelActivity extends BaseActivity<ActivityExcelBinding> {
     private int size = 0;
     private String fileUrl;
     private static final String TAG = "ExcelActivity";
+    String[] strList = {"上海文诚路", "宿州银河一路", "合肥南京路", "贵州分公司", "深圳泰然五路", "长春临河街", "合肥长江西路",
+            "深圳福华路", "芜湖黄山西路", "太原龙兴街", "温岭中华路", "西宁文博路", "南昌井冈山大道", "渭南仓程路", "常州和平中路",
+            "宜春宜阳大道", "苏州苏州大道", "温州瓯江路", "上海分公司", "阜阳颍淮大道", "济宁金宇路", "邵阳西湖路", "南通世纪大道", "扬州扬子江北路", "杭州秋涛北路", "重庆科园二街"
+            , "盐城世纪大道", "吉林泰山路", "鹰潭胜利东路"};
 
     public static void start(Context context) {
         Intent starter = new Intent(context, ExcelActivity.class);
@@ -241,9 +247,9 @@ public class ExcelActivity extends BaseActivity<ActivityExcelBinding> {
                 bean.setRevisitDays((sheet.getCell(11, i)).getContents());
                 bean.setRevisitNum((sheet.getCell(12, i)).getContents());
                 bean.setRevisitNameNum((sheet.getCell(13, i)).getContents());
-                bean.setTaskRemarks((sheet.getCell(14, i)).getContents());
-                bean.setRevisitDetails((sheet.getCell(15, i)).getContents());
-                bean.setIsPrize((sheet.getCell(16, i)).getContents());
+                bean.setRevisitDetails((sheet.getCell(14, i)).getContents());
+                bean.setIsPrize("是");
+                bean.setBonus((sheet.getCell(16, i)).getContents());
                 list.add(bean);
                 Log.e(TAG, "第" + i + "行数据=" + (sheet.getCell(0, i)).getContents());
 //                Log.e("yy", "第" + i + "行数据=" + customer + "," + BusinessDepartment + "," + BusinessDepartmentNum + "," + customerNum + "," + customerName + "," + serviceName + "," + ReturnTaskName
@@ -281,7 +287,7 @@ public class ExcelActivity extends BaseActivity<ActivityExcelBinding> {
                 String excelFileName = "/回访任务_" + time + ".xls";
                 //设置Excel第一行表头
                 String[] title = {"长江龙客户", "客户营业部名称", "客户营业部编号", "客户编号", "客户姓名", "服务人员", "回访任务名称", "分配回访方式", "任务状态", "回访渠道"
-                        , "回访方式", "回访时间", "回访员营业部号", "回访员编号", "任务备注", "回访结果及明细", "是否获奖"};
+                        , "回访方式", "回访时间", "回访员营业部号", "回访员编号", "回访结果及明细", "是否获奖", "获奖金额"};
                 //设置Excel的Sheet名
                 String sheetName = "回访任务明细";
                 String filePaths = filePath + excelFileName;
